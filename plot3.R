@@ -1,0 +1,18 @@
+setwd("F:/探索性数据分析")
+data <- read.csv("household_power_consumption.txt",header=T,sep=";",as.is=T,na.strings="?")
+d <- subset(data,subset=(Date=="1/2/2007"|Date=="2/2/2007"))
+
+Sys.setlocale("LC_TIME", "English")
+z <- paste(d$Date,d$Time)
+zz <- as.POSIXlt(z,format="%d/%m/%Y %H:%M:%S")
+da <- transform(d,date=zz)
+
+plot(da$date,da$Sub_metering_1,col="black",type="l",ann=F,ylim=c(0,40))
+par(new=TRUE)
+plot(da$date,da$Sub_metering_2,col="red",type="l",ann=F,ylim=c(0,40))
+par(new=TRUE)
+plot(da$date,da$Sub_metering_3,col="blue",type="l",ann=F,ylim=c(0,40))
+title(ylab="Energy Sub Metering")
+legend("topright",c("Sub_metering_1","Sub_metering_2","Sub_metering_3"),col=c("black","red","blue"),lty=1,cex =1, adj =0.1)
+dev.copy(png,file="plot3.png")
+dev.off()
